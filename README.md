@@ -1,6 +1,6 @@
 # find-reify-usage
 
-This project finds reify usages in Clojure files you provide to it via the command line.
+This project finds reify usages in Clojure files provided on the command line.
 It is implemented using [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) and Rust.
 
 ## Build
