@@ -1,0 +1,3 @@
+[submodule "tree-sitter-clojure"]
+	path = tree-sitter-clojure
+	url = https://github.com/sogaiu/tree-sitter-clojure
