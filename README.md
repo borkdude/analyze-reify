@@ -19,4 +19,6 @@ clojure.lang.IDeref
 java.util.Iterator
 java.util.ListIterator
 clojure.core.ArrayManager
+find ~/git/clojure/src/clj -name "*.clj"  0.00s user 0.00s system 63% cpu 0.006 total
+xargs ./find-reify-usage  0.12s user 0.02s system 89% cpu 0.153 total
 ```
