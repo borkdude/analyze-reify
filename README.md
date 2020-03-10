@@ -1,6 +1,7 @@
 # find-reify-usage
 
 This project finds reify usages in Clojure files you provide to it via the command line.
+It is implemented using [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) and Rust.
 
 ## Build
 
@@ -10,9 +11,12 @@ This will create a `find-reify-usage` binary in `target/release`.
 ## Usage
 
 ```
-find ~/git/clojure/src/clj -name "*.clj" | xargs ./find-reify-usage
+$ time find ~/git/clojure/src/clj -name "*.clj" | xargs ./find-reify-usage
+clojure.core.protocols/CollReduce
+clojure.core.protocols/CollReduce
+clojure.lang.IDeref
+clojure.lang.IDeref
+java.util.Iterator
+java.util.ListIterator
+clojure.core.ArrayManager
 ```
-
-## License
-
-See LICENSE.
