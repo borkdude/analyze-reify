@@ -5,7 +5,7 @@ This project analyzes [Clojure](http://clojure.org/) code for occurrences of
 [tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) and
 [Rust](https://www.rust-lang.org/).
 
-## Background
+## Rationale
 
 This is more a proof of concept than a public facing tool, although it does
 solve a real problem for me. I wanted to know the most popular reified
@@ -14,6 +14,14 @@ interfaces so I could decide if it made sense supporting `reify` in
 [Rust](https://www.rust-lang.org/) and
 [tree-sitter](https://github.com/tree-sitter/) so this seemed like a nice
 oppurtunity to combine the two.
+
+## Results
+
+For simple analysis like this it seems like using a tree-sitter based approach
+is feasible. Performance is better than parsing Clojure code into reified data
+structures. For comparison, walking over the ASTs in `clojure/core.clj` takes
+only around 50ms whereas in a tools.reader based solution it takes around
+200ms. This is by no means a scientific benchmark. More research needed.
 
 ## Build
 
