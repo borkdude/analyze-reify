@@ -17,10 +17,27 @@ oppurtunity to combine the two.
 
 ## Build
 
-Execute `script/build`. You will need `npm` and `cargo`.
-This will create a `analyze-reify` binary in `target/release`.
+Clone the repo including the submodule:
 
-To install the tool on your system:
+```
+$ git clone https://github.com/borkdude/analyze-reify --recursive
+$ cd analyze-reify
+```
+
+Then build the `tree-sitter-clojure` source by running. Note: this script
+requires `npm`.
+
+```
+$ script/tree-sitter-clojure
+```
+
+Then build with the Rust build tool `cargo`:
+
+```
+$ cargo build --release
+```
+
+or install the tool on to your system:
 
 ```
 $ cargo install --path .

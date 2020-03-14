@@ -4,5 +4,3 @@ cd tree-sitter-clojure
 npm install
 npx tree-sitter generate
 cd ..
-
-cargo build --release
