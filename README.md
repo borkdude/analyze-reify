@@ -32,7 +32,7 @@ $ git clone https://github.com/borkdude/analyze-reify --recursive
 $ cd analyze-reify
 ```
 
-Then build the `tree-sitter-clojure` source by running. Note: this script
+Then build the `tree-sitter-clojure` source. Note: this script
 requires `npm`.
 
 ```
