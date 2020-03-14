@@ -17,11 +17,16 @@ oppurtunity to combine the two.
 
 ## Results
 
-For simple analyses like this it seems a tree-sitter based approach
-is feasible. Performance is better than parsing Clojure code into reified data
+For simple analyses like this it seems a tree-sitter based approach is
+feasible. Performance is better than parsing Clojure code into reified data
 structures. For comparison, walking over the ASTs in `clojure/core.clj` takes
 only around 50ms whereas in a tools.reader based solution it takes around
-200ms. This is by no means a scientific benchmark. More research needed.
+200ms. This is by no means a scientific benchmark. More research needed. On my
+laptop, analyzing all my Clojure projects takes around 1ms per file on average:
+
+```
+Processed 829 files in 731ms. 😎
+```
 
 ## Build
 
@@ -57,39 +62,32 @@ Provide multiple paths (files or directories) to `analyze-reify`. It will
 scan for `.clj` files and analyze them.
 
 ```
-$ analyze-reify <path/to/clojure/src>
+$ analyze-reify ~/git/clojure
 clojure.core.protocols/CollReduce
-clojure.core.protocols/CollReduce
-clojure.lang.IDeref
-clojure.lang.IDeref
-java.util.Iterator
-java.util.ListIterator
 clojure.core.ArrayManager
+clojure.lang.IDeref
+...
+
+Processed 160 files in 111ms. 😎
 ```
 
 To get a sorted frequency list, you can combine this tool with
 [babashka](https://github.com/borkdude/babashka/):
 
 ```
-$ analyze-reify <path/to/clojure/src> | bb -io '(->> *input* frequencies (sort-by second >))'
-[Specize 11]
-[Function 7]
-[clojure.lang.IDeref 6]
-[Lock 6]
-[impl/Channel 3]
-[clojure.core.protocols/CollReduce 2]
-[clojure.lang.IReduceInit 2]
-[clojure.core.ArrayManager 1]
-[ThreadFactory 1]
-[Supplier 1]
-[WebSocket$Listener 1]
-[cljs.test/IAsyncTest 1]
-[closure/Inputs 1]
-[impl/Executor 1]
-[SignalHandler 1]
-[clojure.lang.ILookup 1]
-[java.util.Iterator 1]
-[java.util.ListIterator 1]
+$ analyze-reify ~/git/clojure | bb -io '(->> *input* frequencies (sort-by second >))'
+Processed 160 files in 101ms. 😎
+[clojure.core.protocols/CollReduce 4]
+[clojure.lang.IDeref 4]
+[clojure.core.ArrayManager 2]
+[java.util.List 2]
+[java.util.Iterator 2]
+[Elusive 2]
+[java.util.ListIterator 2]
+[Object 1]
+[clojure.lang.ISeq 1]
+[clojure.lang.IReduceInit 1]
+[clojure.test_clojure.protocols.examples.ExampleInterface 1]
 ```
 
 ## Thanks

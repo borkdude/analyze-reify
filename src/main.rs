@@ -5,6 +5,7 @@ use glob::glob;
 use std::fs::metadata;
 use rayon::prelude::*;
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::time::{SystemTime};
 
 extern "C" { fn tree_sitter_clojure() -> Language; }
 
@@ -60,6 +61,7 @@ fn paths_from_arg(arg: &String) -> glob::Paths {
 }
 
 fn main() {
+    let start = SystemTime::now();
     let args: Vec<String> = env::args().skip(1).collect();
     let atomic_counter = AtomicUsize::new(0);
     args.into_par_iter().for_each(|arg| {
@@ -77,5 +79,9 @@ fn main() {
             }
         });
     });
-    eprintln!("\n=== Processed {} files ===", atomic_counter.load(Ordering::SeqCst))
+    let since_start = SystemTime::now().duration_since(start)
+        .expect("Time went backwards");
+    eprintln!("Processed {} files in {}ms. 😎"
+              , atomic_counter.load(Ordering::SeqCst)
+              , since_start.as_millis());
 }
