@@ -84,6 +84,11 @@ $ analyze-reify <path/to/clojure/src> | bb -io '(->> *input* frequencies (sort-b
 [java.util.ListIterator 1]
 ```
 
+## Thanks
+
+Thanks to [sogaiu](https://github.com/sogaiu/) for taking the time to implement
+[tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure).
+
 ## License
 
 Copyright © 2020 Michiel Borkent
