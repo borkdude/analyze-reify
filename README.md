@@ -2,7 +2,8 @@
 
 This project analyzes [Clojure](http://clojure.org/) code for occurrences of
 `reify` and lists the reified interfaces and protocols. It is implemented using
-[tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) and Rust.
+[tree-sitter-clojure](https://github.com/sogaiu/tree-sitter-clojure) and
+[Rust](https://www.rust-lang.org/).
 
 ## Background
 
