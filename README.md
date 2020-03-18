@@ -21,8 +21,7 @@ For simple analyses like this it seems a tree-sitter based approach is
 feasible. Performance is better than parsing Clojure code into reified data
 structures. For comparison, walking over the ASTs in `clojure/core.clj` takes
 only around 50ms whereas in a tools.reader based solution it takes around
-200ms. This is by no means a scientific benchmark. More research needed. On my
-laptop, analyzing all my Clojure projects takes around 1ms per file on average:
+200ms. This is by no means a scientific benchmark. More research needed.
 
 ```
 Processed 829 files in 731ms. 😎
