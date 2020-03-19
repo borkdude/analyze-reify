@@ -6,6 +6,8 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::{SystemTime};
 use tree_sitter::{Parser, Language, Node};
 use std::io::Read;
+use std::sync::mpsc::channel;
+use std::{thread, time};
 
 extern "C" { fn tree_sitter_clojure() -> Language; }
 
@@ -77,18 +79,24 @@ fn print_reify_usage_from_zipfile_path(path: &Path, app_cfg: &AppCfg) {
     let file = std::fs::File::open(&path).unwrap();
     let mut archive = zip::ZipArchive::new(file).unwrap();
     let range = 0..archive.len();
-    let mut strings: Vec<String> = vec![];
-    range.for_each(|i| {
+    let (tx, rx) = channel();
+    //let mut strings: Vec<String> = vec![];
+    range.for_each(move |i| {
         let mut file = archive.by_index(i).unwrap();
         if file.is_file() && (file.name()).ends_with(".clj") {
             let mut contents = String::new();
             file.read_to_string(&mut contents).unwrap();
-            strings.push(contents);
+            println!("Sending content");
+            tx.send(contents).unwrap();
+            let ten_millis = time::Duration::from_millis(100); // sleep ten seconds
+            thread::sleep(ten_millis);
+            //strings.push(contents);
         }
     });
     // to verify that we're actually doing work in all the threads
     //let mut active_threads = AtomicUsize::new(0);
-    strings.into_par_iter().for_each(|source| {
+    rx.into_iter().par_bridge().for_each(|source| {
+        println!("Received source: {}", source);
         //let thread_count = active_threads.fetch_add(1,Ordering::Relaxed);
         //println!("active threads: {}", thread_count);
         app_cfg.atomic_counter.fetch_add(1, Ordering::Relaxed);
