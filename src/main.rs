@@ -81,7 +81,7 @@ fn print_reify_usage_from_zipfile_path(path: &Path, app_cfg: &AppCfg) {
     let range = 0..archive.len();
     let (tx, rx) = channel();
     //println!("{:?}", range);
-    std::thread::spawn(move || {
+    std::thread::spawn(move || { // if I use a rayon thread here, stuff will be stuck, deadlocked... why?
         range.for_each(|i| {
             //println!("Sending content");
             let mut file = archive.by_index(i).unwrap();
