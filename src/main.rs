@@ -55,13 +55,18 @@ fn print_reify_usage_from_file_path(path: &Path, app_cfg: &AppCfg) {
     let language: Language = unsafe { tree_sitter_clojure() };
     let mut parser = Parser::new();
     parser.set_language(language).unwrap();
-
-    let contents = std::fs::read_to_string(path).unwrap();
-    let bytes = contents.as_bytes();
-    let tree = parser.parse(&bytes, None).unwrap();
-    let root_node = tree.root_node();
-    app_cfg.atomic_counter.fetch_add(1, Ordering::Relaxed);
-    print_reify_usage_from_node(root_node, &bytes);
+    let contents = std::fs::read_to_string(path);
+    match contents {
+        Ok(contents) => {
+            let bytes = contents.as_bytes();
+            let tree = parser.parse(&bytes, None).unwrap();
+            let root_node = tree.root_node();
+            app_cfg.atomic_counter.fetch_add(1, Ordering::Relaxed);
+            print_reify_usage_from_node(root_node, &bytes);
+        },
+        // Error when reading non-UTF8:
+        _ => return
+    }
 }
 
 // references:
