@@ -75,13 +75,15 @@ fn print_reify_usage_from_file_path(path: &Path, app_cfg: &AppCfg) {
 // http://siciarz.net/24-days-rust-zip-and-lzma-compression/
 
 fn print_reify_usage_from_zipfile_path(path: &Path, app_cfg: &AppCfg) {
+    //println!("{:?}", &path);
     let file = std::fs::File::open(&path).unwrap();
     let mut archive = zip::ZipArchive::new(file).unwrap();
     let range = 0..archive.len();
     let (tx, rx) = channel();
-    //let mut strings: Vec<String> = vec![];
-    rayon::spawn(move || {
-        range.for_each(move |i| {
+    //println!("{:?}", range);
+    std::thread::spawn(move || {
+        range.for_each(|i| {
+            //println!("Sending content");
             let mut file = archive.by_index(i).unwrap();
             if file.is_file() && (file.name()).ends_with(".clj") {
                 let mut contents = String::new();
@@ -97,6 +99,7 @@ fn print_reify_usage_from_zipfile_path(path: &Path, app_cfg: &AppCfg) {
     // to verify that we're actually doing work in all the threads
     //let mut active_threads = AtomicUsize::new(0);
     rx.into_iter().par_bridge().for_each(|source| {
+        //println!("recv!");
         //let thread_count = active_threads.fetch_add(1,Ordering::Relaxed);
         //println!("active threads: {}", thread_count);
         app_cfg.atomic_counter.fetch_add(1, Ordering::Relaxed);
